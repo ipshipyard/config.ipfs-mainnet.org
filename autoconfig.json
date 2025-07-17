@@ -1,0 +1,25 @@
+{
+  "AutoConfigVersion": 1,
+  "Bootstrap": [
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zp7y6ipR8LpehtEtBJE8VJqWCjjCKv",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX89HWa9kHqe6a2B2G4c2J1T8w9c",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/104.131.131.82/udp/4001/quic-v1/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+  ],
+  "DNS": {
+    "Resolvers": {
+      "eth.": [
+        "https://dns.eth.limo/dns-query",
+        "https://dns.eth.link/dns-query"
+      ]
+    }
+  },
+  "Routing": {
+    "DelegatedRouters": [
+      "https://cid.contact"
+    ]
+  }
+}
