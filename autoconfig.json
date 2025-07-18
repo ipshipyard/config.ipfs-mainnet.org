@@ -1,6 +1,6 @@
 {
-  "AutoConfigVersion": 2025071801,
-  "AutoConfigSchema": 1,
+  "AutoConfigVersion": 2025071802,
+  "AutoConfigSchema": 2,
   "Bootstrap": [
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
@@ -26,8 +26,8 @@
       "ipns": ["https://delegated-ipfs.dev"]
     }
   },
-  "DelegatedProviders": {
-    "for-nodes-without-dht": {
+  "DelegatedPublishers": {
+    "for-ipns-publishers-with-http": {
       "ipns": ["https://delegated-ipfs.dev"]
     }
   }
