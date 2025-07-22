@@ -1,6 +1,6 @@
 {
-  "AutoConfigVersion": 2025071802,
-  "AutoConfigSchema": 2,
+  "AutoConfigVersion": 2025072301,
+  "AutoConfigSchema": 3,
   "Bootstrap": [
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
@@ -17,18 +17,18 @@
     ]
   },
   "DelegatedRouters": {
-    "for-nodes-with-dht": {
-      "providers": ["https://cid.contact"]
-    },
-    "for-nodes-without-dht": {
-      "providers": ["https://delegated-ipfs.dev"],
-      "peers": ["https://delegated-ipfs.dev"],
-      "ipns": ["https://delegated-ipfs.dev"]
-    }
+    "mainnet-for-nodes-with-dht": [
+      "https://cid.contact/routing/v1/providers"
+    ],
+    "mainnet-for-nodes-without-dht": [
+      "https://delegated-ipfs.dev/routing/v1/providers",
+      "https://delegated-ipfs.dev/routing/v1/peers",
+      "https://delegated-ipfs.dev/routing/v1/ipns"
+    ]
   },
   "DelegatedPublishers": {
-    "for-ipns-publishers-with-http": {
-      "ipns": ["https://delegated-ipfs.dev"]
-    }
+    "mainnet-for-ipns-publishers-with-http": [
+      "https://delegated-ipfs.dev/routing/v1/ipns"
+    ]
   }
 }
