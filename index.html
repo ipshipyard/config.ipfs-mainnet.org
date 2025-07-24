@@ -11,97 +11,97 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #333;
             background: #fff;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         header {
             background: #f8f9fa;
             padding: 1rem 0;
             border-bottom: 1px solid #e9ecef;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         h1 {
             color: #2d3748;
             font-size: 1.5rem;
         }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
-        
+
         .nav-links a {
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
         }
-        
+
         .nav-links a:hover {
             color: #2d3748;
         }
-        
+
         main {
             padding: 2rem 0;
         }
-        
+
         section {
             margin-bottom: 4rem;
         }
-        
+
         h2 {
             color: #2d3748;
             margin-bottom: 1.5rem;
             font-size: 2.25rem;
             font-weight: 600;
         }
-        
+
         h3 {
             color: #333;
             margin-bottom: 0.5rem;
             font-size: 1.25rem;
         }
-        
+
         p {
             margin-bottom: 1rem;
             color: #333;
         }
-        
+
         .hero {
             text-align: center;
             padding: 4rem 0;
             background: #f8f9fa;
             margin-bottom: 4rem;
         }
-        
+
         .hero h2 {
             font-size: 3rem;
             margin-bottom: 1.5rem;
             font-weight: 700;
         }
-        
+
         .lead {
             font-size: 1.25rem;
             margin-bottom: 2rem;
         }
-        
+
         .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -114,11 +114,11 @@
             box-sizing: border-box;
             line-height: 1;
         }
-        
+
         .btn:hover {
             background: #2c5282;
         }
-        
+
         .url-input-group {
             display: flex;
             gap: 0.5rem;
@@ -128,19 +128,19 @@
             margin: 0 auto;
             flex-wrap: wrap;
         }
-        
+
         @media (min-width: 769px) {
             .url-input-group {
                 flex-wrap: nowrap;
             }
         }
-        
+
         .button-group {
             display: flex;
             gap: 0.5rem;
             flex-shrink: 0;
         }
-        
+
         .url-input {
             width: 400px;
             padding: 0.75rem;
@@ -150,13 +150,13 @@
             font-size: 0.875rem;
             background: #f7fafc;
         }
-        
+
         .url-input:focus {
             outline: none;
             border-color: #3182ce;
             box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.1);
         }
-        
+
         .btn-secondary {
             background: #4a5568;
             color: white;
@@ -170,45 +170,45 @@
             box-sizing: border-box;
             line-height: 1;
         }
-        
+
         .btn-secondary:hover {
             background: #2d3748;
             border-color: #2d3748;
         }
-        
+
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin: 2rem 0;
         }
-        
+
         .feature-card {
             padding: 1.5rem;
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             text-align: center;
         }
-        
+
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .code-block {
             background: #f7fafc;
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             overflow-x: auto;
         }
-        
+
         .code-header {
             background: #edf2f7;
             padding: 0.75rem 1rem;
             border-bottom: 1px solid #e2e8f0;
             font-weight: 500;
         }
-        
+
         pre {
             padding: 1rem;
             margin: 0;
@@ -216,32 +216,43 @@
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 0.875rem;
         }
-        
+
         .config-sections {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
-        
+
         .config-section {
             padding: 1.5rem;
             background: #f8f9fa;
             border-radius: 0.5rem;
         }
-        
+
+        .config-section h4 code {
+            background: #e2e8f0;
+            color: #2d3748;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
         .process-steps {
             counter-reset: step-counter;
             list-style: none;
         }
-        
+
         .process-steps li {
             counter-increment: step-counter;
             margin-bottom: 1.5rem;
             padding-left: 3rem;
             position: relative;
         }
-        
+
         .process-steps li::before {
             content: counter(step-counter);
             position: absolute;
@@ -258,7 +269,35 @@
             font-size: 0.875rem;
             font-weight: bold;
         }
-        
+
+        .question-steps {
+            counter-reset: none;
+            list-style: none;
+        }
+
+        .question-steps li {
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .question-steps li::before {
+            content: "?";
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #e2e8f0;
+            color: #4a5568;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
         .status-banner {
             background: #fffbf0;
             border: 1px solid #f6e05e;
@@ -266,44 +305,44 @@
             padding: 2rem;
             margin: 2rem 0;
         }
-        
+
         .status-banner a {
             color: #117eb3;
             text-decoration: none;
         }
-        
+
         .status-banner a:hover {
             color: #0b3a53;
             text-decoration: underline;
         }
-        
+
         .status-banner a:visited {
             color: #117eb3;
         }
-        
+
         .ecosystem-section {
             padding: 1rem;
             margin: 0.75rem 0;
         }
-        
+
         .ecosystem-section h4 {
             color: #0b3a53;
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
-        
+
         .ecosystem-section ul {
             margin: 0;
             padding-left: 0;
             list-style: none;
         }
-        
+
         .ecosystem-section li {
             margin-bottom: 0.25rem;
             position: relative;
             padding-left: 1.5rem;
         }
-        
+
         .ecosystem-section li::before {
             content: "☐";
             position: absolute;
@@ -311,59 +350,59 @@
             color: #4a5568;
             font-size: 1rem;
         }
-        
+
         footer {
             background: #2d3748;
             color: white;
             padding: 2rem 0;
             margin-top: 3rem;
         }
-        
+
         footer p {
             color: white;
         }
-        
+
         footer a {
             color: #cbd5e0;
             text-decoration: none;
         }
-        
+
         footer a:hover {
             color: white;
         }
-        
+
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-        
+
         .footer-content ul {
             list-style: none;
         }
-        
+
         .footer-content li {
             margin-bottom: 0.5rem;
         }
-        
+
         .footer-bottom {
             text-align: center;
             color: #a0aec0;
         }
-        
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
             .hero h2 {
                 font-size: 2rem;
             }
-            
+
             .feature-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .url-input {
                 width: 100%;
                 max-width: 300px;
@@ -372,11 +411,20 @@
     </style>
 </head>
 <body>
+    <!-- Alpha/Under Construction Banner -->
+    <div style="background: #ff6b6b; color: white; padding: 1rem; text-align: center; font-weight: 600; position: relative;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            🚧 <strong>ALPHA</strong> - This site and JSON format are under construction and for early feedback only. Features and content may change. 
+            <a href="https://github.com/ipshipyard/config.ipfs-mainnet.org/issues" style="color: white; text-decoration: underline; margin-left: 0.5rem;">Submit feedback →</a>
+        </div>
+    </div>
     <header>
         <nav class="container">
             <h1>IPFS Mainnet AutoConfig</h1>
             <ul class="nav-links">
-                <li><a href="#about">About</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#autoconfig">AutoConfig</a></li>
+                <li><a href="#profiles">Mainnet Profiles</a></li>
                 <li><a href="#implementation">Implementation</a></li>
             </ul>
         </nav>
@@ -398,25 +446,125 @@
             </div>
         </section>
 
-        <section id="about">
+        <section id="overview">
             <div class="container">
-                <h2>What is IPFS Mainnet AutoConfig?</h2>
+                <h2>Overview</h2>
                 <p>This page hosts the AutoConfig JSON for IPFS Mainnet, providing dynamic network defaults that can be updated independently of software releases.</p>
-                
+
                 <h3>What is Mainnet?</h3>
                 <p>IPFS Mainnet is the default public network that most IPFS implementations connect to. It joins the Amino DHT and queries Delegated Routing endpoints for content routing, uses Bootstrap nodes to enter the network, relies on DNS resolvers for DNSLink and DNSAddr resolution, uses Bitswap and trustless HTTP for data transfer, and uses UnixFS for encoding files and directories. This configuration provides the standard interoperability layer for the shared public swarm IPFS ecosystem.</p>
 
                 <h3>What is AutoConfig?</h3>
                 <p>IPFS nodes have historically relied on hardcoded defaults for Bootstrap peers, DNS resolvers, and Delegated Routing endpoints. This required software updates to change swarm defaults and made it difficult to adapt to swarm changes.</p>
-                
+
                 <p>AutoConfig convention moves these defaults to a configurable URL for a JSON file that can be updated independently, enabling real-time updates while preserving user agency through full customization options.</p>
-                
+
                 <p>AutoConfig enables dynamic swarm defaults through:</p>
                 <ol class="process-steps">
                     <li><strong>Explicit Setup:</strong> New IPFS nodes use "auto" placeholders instead of silently hardcoded strings in source code</li>
                     <li><strong>Dynamic Updates:</strong> IPFS nodes automatically fetch the latest swarm defaults on startup, save them locally for offline use, and can periodically check for updates without interrupting service</li>
                     <li><strong>User Agency:</strong> Implementations respect user-set overrides, and users can also keep "auto" while appending their own bootstrap peers and other custom settings</li>
                 </ol>
+            </div>
+        </section>
+
+        <section id="autoconfig">
+            <div class="container">
+                <h2>AutoConfig Format</h2>
+
+                <h3>Path-Based Routing Configuration</h3>
+                <p>AutoConfig supports path-based routing URLs that automatically enable specific <a href="https://specs.ipfs.tech/routing/http-routing-v1/">HTTP Routing V1</a> operations based on the URL path. This enables precise, efficient routing where each endpoint URL automatically determines its capabilities:</p>
+
+                <div class="config-sections">
+                    <div class="config-section">
+                        <h4>Supported Routing Paths</h4>
+                        <ul>
+                            <li><code>/routing/v1/providers</code> - Provider record lookups</li>
+                            <li><code>/routing/v1/peers</code> - Peer routing lookups</li>
+                            <li><code>/routing/v1/ipns</code> - IPNS record operations</li>
+                            <li><em>No path</em> - All routing operations</li>
+                        </ul>
+                    </div>
+                    <div class="config-section">
+                        <h4>AutoConfig Schema</h4>
+                        <ul>
+                            <li><code>Bootstrap</code> - Network bootstrap peers</li>
+                            <li><code>DNSResolvers</code> - DNS resolution endpoints</li>
+                            <li><code>DelegatedRouters</code> - Content routing endpoints</li>
+                            <li><code>DelegatedPublishers</code> - IPNS publishing endpoints</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="profiles">
+            <div class="container">
+                <h2>Mainnet Profiles</h2>
+                <p>IPFS Mainnet AutoConfig provides specific configuration profiles optimized for different node types and use cases. Each profile defines appropriate routing strategies based on node capabilities and requirements.</p>
+
+                <h3>Available Profiles</h3>
+                <p>Each profile is designed for specific node characteristics and use cases:</p>
+
+                <div class="config-sections">
+                    <div class="config-section">
+                        <h4><code>mainnet-for-nodes-with-dht</code></h4>
+                        <p><strong>Purpose:</strong> For full IPFS nodes that actively participate in the Amino DHT network.</p>
+                        <p><strong>Characteristics:</strong> These are typically long-running, well-connected nodes (servers, desktop applications) that contribute to the DHT by storing routing records and responding to queries.</p>
+                        <p><strong>Routing Strategy:</strong> Primarily uses DHT for routing operations but supplements with delegated routing for content provider lookups to improve discovery performance.</p>
+                        <p><strong>Typical Use Cases:</strong> Kubo nodes, Rainbow gateways, IPFS Cluster nodes, always-on infrastructure nodes.</p>
+                    </div>
+                    <div class="config-section">
+                        <h4><code>mainnet-for-nodes-without-dht</code></h4>
+                        <p><strong>Purpose:</strong> For resource-constrained or ephemeral nodes that cannot effectively participate in the DHT.</p>
+                        <p><strong>Characteristics:</strong> These nodes have limited resources, connectivity constraints, or short session lifetimes that make DHT participation impractical or impossible.</p>
+                        <p><strong>Routing Strategy:</strong> Relies entirely on delegated routing services for all routing operations (content providers, peer discovery, IPNS resolution).</p>
+                        <p><strong>Typical Use Cases:</strong> Browser-based IPFS nodes, mobile applications, embedded devices, service worker gateways, Helia in resource-constrained environments.</p>
+                    </div>
+                    <div class="config-section">
+                        <h4><code>mainnet-for-ipns-publishers-with-http</code></h4>
+                        <p><strong>Purpose:</strong> For nodes that need to publish IPNS records using HTTP routing endpoints rather than DHT.</p>
+                        <p><strong>Characteristics:</strong> These nodes may have DHT access limitations or prefer HTTP-based publishing for reliability, performance, or architectural reasons.</p>
+                        <p><strong>Routing Strategy:</strong> Uses HTTP routing endpoints specifically for IPNS record publishing operations. May be combined with other profiles for reading operations.</p>
+                        <p><strong>Typical Use Cases:</strong> Content publishing services, CI/CD systems, automated publishing workflows, nodes behind restrictive firewalls.</p>
+                    </div>
+                </div>
+
+                <h3>Choosing the Right Profile</h3>
+                <p>Select profiles based on your node's capabilities and requirements:</p>
+                <ol class="question-steps">
+                    <li><strong>Can your node participate in DHT?</strong> If yes, use <code>mainnet-for-nodes-with-dht</code> for optimal network contribution.</li>
+                    <li><strong>Is your node resource-constrained or short-lived?</strong> Use <code>mainnet-for-nodes-without-dht</code> for delegated routing dependency.</li>
+                    <li><strong>Do you need to publish IPNS via HTTP?</strong> Add <code>mainnet-for-ipns-publishers-with-http</code> for publishing capabilities.</li>
+                    <li><strong>Multiple profiles can be used together</strong> when nodes need different routing strategies for different operations.</li>
+                </ol>
+
+                <div class="code-block">
+                    <div class="code-header">Profile Configuration Example</div>
+                    <pre>{
+  "DelegatedRouters": {
+    // DHT-participating nodes: Supplement DHT with provider lookups
+    "mainnet-for-nodes-with-dht": [
+      "https://[endpoint]/routing/v1/providers"
+    ],
+    // Non-DHT nodes: Full delegated routing dependency
+    "mainnet-for-nodes-without-dht": [
+      "https://[endpoint]/routing/v1/providers",  // Content provider discovery
+      "https://[endpoint]/routing/v1/peers",      // Peer routing and discovery
+      "https://[endpoint]/routing/v1/ipns"        // IPNS record resolution
+    ]
+  },
+  "DelegatedPublishers": {
+    // HTTP IPNS publishing: Nodes that publish IPNS via HTTP routing
+    "mainnet-for-ipns-publishers-with-http": [
+      "https://[endpoint]/routing/v1/ipns"        // IPNS record publishing
+    ]
+  },
+
+  // Additional AutoConfig sections (Bootstrap, DNSResolvers, etc.)
+  // are shared across all profiles and define common network defaults
+}</pre>
+                </div>
             </div>
         </section>
 
@@ -430,7 +578,7 @@
                         <div class="ecosystem-section">
                             <h4><a href="https://github.com/ipfs/boxo">Boxo</a> (Go ecosystem)</h4>
                             <ul>
-                                <li><a href="https://github.com/ipfs/kubo">Kubo</a> - Go implementation</li>
+                                <li><a href="https://github.com/ipfs/kubo">Kubo</a> - Go implementation (<a href="https://github.com/ipfs/kubo/pull/10883">PR #10883</a>)</li>
                                 <li><a href="https://github.com/ipfs/rainbow/">Rainbow</a> - HTTP gateway implementation</li>
                                 <li><a href="https://github.com/ipfs-shipyard/someguy">Someguy</a> - Delegated routing service</li>
                             </ul>
@@ -456,7 +604,7 @@
             </div>
         </div>
     </footer>
-    
+
     <script>
         function copyUrl() {
             const input = document.querySelector('.url-input');
