@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPFS Mainnet AutoConfig - Dynamic Configuration for IPFS Mainnet Swarm</title>
-    <meta name="description" content="IPFS Mainnet AutoConfig hosts dynamic configuration for bootstrap peers, DNS resolvers, and routing endpoints in the IPFS Mainnet swarm.">
+    <title>🧭 IPFS Mainnet AutoConfig - Dynamic Configuration for IPFS Mainnet Swarm</title>
+    <meta name="description" content="IPFS Mainnet AutoConfig hosts dynamic configuration for routing systems, bootstrap peers, DNS resolvers, and delegated endpoints in the IPFS Mainnet swarm.">
     <style>
         * {
             margin: 0;
@@ -75,8 +75,16 @@
 
         h3 {
             color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        h4 {
+            color: #333;
             margin-bottom: 0.5rem;
             font-size: 1.25rem;
+            font-weight: 600;
         }
 
         p {
@@ -200,6 +208,7 @@
             border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             overflow-x: auto;
+            margin: 1.5rem 0;
         }
 
         .code-header {
@@ -219,7 +228,7 @@
 
         .config-sections {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
@@ -255,34 +264,6 @@
 
         .process-steps li::before {
             content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: #e2e8f0;
-            color: #4a5568;
-            width: 1.75rem;
-            height: 1.75rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.875rem;
-            font-weight: bold;
-        }
-
-        .question-steps {
-            counter-reset: none;
-            list-style: none;
-        }
-
-        .question-steps li {
-            margin-bottom: 1.5rem;
-            padding-left: 3rem;
-            position: relative;
-        }
-
-        .question-steps li::before {
-            content: "?";
             position: absolute;
             left: 0;
             top: 0;
@@ -351,6 +332,24 @@
             font-size: 1rem;
         }
 
+        code {
+            background: #f7fafc;
+            color: #2d3748;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
         footer {
             background: #2d3748;
             color: white;
@@ -369,20 +368,6 @@
 
         footer a:hover {
             color: white;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-content ul {
-            list-style: none;
-        }
-
-        .footer-content li {
-            margin-bottom: 0.5rem;
         }
 
         .footer-bottom {
@@ -420,12 +405,12 @@
     </div>
     <header>
         <nav class="container">
-            <h1>IPFS Mainnet AutoConfig</h1>
+            <h1>🧭 IPFS Mainnet AutoConfig</h1>
             <ul class="nav-links">
                 <li><a href="#overview">Overview</a></li>
-                <li><a href="#autoconfig">AutoConfig</a></li>
-                <li><a href="#profiles">Mainnet Profiles</a></li>
-                <li><a href="#implementation">Implementation</a></li>
+                <li><a href="#schema">Format</a></li>
+                <li><a href="#systems">Systems</a></li>
+                <li><a href="#implementation">Implementations</a></li>
             </ul>
         </nav>
     </header>
@@ -434,7 +419,7 @@
         <section class="hero">
             <div class="container">
                 <h2>Dynamic Configuration<br>for IPFS Mainnet</h2>
-                <p class="lead">Updateable swarm-specific defaults for Bootstrap peers, DNS resolvers, Delegated Routing and more.</p>
+                <p class="lead">Updateable system registry for routing systems, bootstrap peers, DNS resolvers, and delegated endpoints.</p>
                 <div class="url-input-group">
                     <input type="text" class="url-input" value="https://config.ipfs-mainnet.org/autoconfig.json" readonly>
                     <button class="btn-secondary" onclick="copyUrl()">Copy</button>
@@ -449,120 +434,268 @@
         <section id="overview">
             <div class="container">
                 <h2>Overview</h2>
-                <p>This page hosts the AutoConfig JSON for IPFS Mainnet, providing dynamic network defaults that can be updated independently of software releases.</p>
-
-                <h3>What is Mainnet?</h3>
-                <p>IPFS Mainnet is the default public network that most IPFS implementations connect to. It joins the Amino DHT and queries Delegated Routing endpoints for content routing, uses Bootstrap nodes to enter the network, relies on DNS resolvers for DNSLink and DNSAddr resolution, uses Bitswap and trustless HTTP for data transfer, and uses UnixFS for encoding files and directories. This configuration provides the standard interoperability layer for the shared public swarm IPFS ecosystem.</p>
+                <p>IPFS Mainnet AutoConfig provides a standardized, extensible configuration format for IPFS implementations to discover and configure routing systems, bootstrap peers, DNS resolvers, and delegated endpoints dynamically.</p>
 
                 <h3>What is AutoConfig?</h3>
-                <p>IPFS nodes have historically relied on hardcoded defaults for Bootstrap peers, DNS resolvers, and Delegated Routing endpoints. This required software updates to change swarm defaults and made it difficult to adapt to swarm changes.</p>
+                <p>This version introduces a system-centric approach that moves away from hardcoded profiles to a flexible registry where routing systems declare their capabilities and endpoints specify which systems they support. This enables:</p>
+                
+                <ul>
+                    <li><strong>Dynamic System Discovery:</strong> New routing systems can be added without breaking existing clients</li>
+                    <li><strong>Future-Proof API Versioning:</strong> Endpoints can support multiple API versions simultaneously</li>
+                    <li><strong>Clear Separation:</strong> Native configuration (bootstrap peers) vs delegated configuration (HTTP endpoints)</li>
+                    <li><strong>Client Choice:</strong> Implementations decide whether to use native or delegated routing per system</li>
+                    <li><strong>API Compatibility:</strong> Clients ignore unknown APIs and use only the endpoints they understand</li>
+                </ul>
 
-                <p>AutoConfig convention moves these defaults to a configurable URL for a JSON file that can be updated independently, enabling real-time updates while preserving user agency through full customization options.</p>
-
-                <p>AutoConfig enables dynamic swarm defaults through:</p>
+                <h3>Key Principles</h3>
                 <ol class="process-steps">
-                    <li><strong>Explicit Setup:</strong> New IPFS nodes use "auto" placeholders instead of silently hardcoded strings in source code</li>
-                    <li><strong>Dynamic Updates:</strong> IPFS nodes automatically fetch the latest swarm defaults on startup, save them locally for offline use, and can periodically check for updates without interrupting service</li>
-                    <li><strong>User Agency:</strong> Implementations respect user-set overrides, and users can also keep "auto" while appending their own bootstrap peers and other custom settings</li>
+                    <li><strong>Extensibility:</strong> Unknown APIs are safely ignored, allowing gradual ecosystem evolution</li>
+                    <li><strong>Endpoint-Level Capabilities:</strong> Each endpoint declares exactly which APIs it supports</li>
+                    <li><strong>Profile Guidance:</strong> Optional hints for browser vs daemon environments without enforcement</li>
+                    <li><strong>24-Hour Caching:</strong> Clients cache configurations locally with automatic refresh</li>
                 </ol>
             </div>
         </section>
 
-        <section id="autoconfig">
+        <section id="schema">
             <div class="container">
-                <h2>AutoConfig Format</h2>
-
-                <h3>Path-Based Routing Configuration</h3>
-                <p>AutoConfig supports path-based routing URLs that automatically enable specific <a href="https://specs.ipfs.tech/routing/http-routing-v1/">HTTP Routing V1</a> operations based on the URL path. This enables precise, efficient routing where each endpoint URL automatically determines its capabilities:</p>
+                <h2>Configuration Format</h2>
+                <p>The AutoConfig format consists of six main sections that work together to provide comprehensive routing configuration:</p>
 
                 <div class="config-sections">
                     <div class="config-section">
-                        <h4>Supported Routing Paths</h4>
-                        <ul>
-                            <li><code>/routing/v1/providers</code> - Provider record lookups</li>
-                            <li><code>/routing/v1/peers</code> - Peer routing lookups</li>
-                            <li><code>/routing/v1/ipns</code> - IPNS record operations</li>
-                            <li><em>No path</em> - All routing operations</li>
-                        </ul>
+                        <h4><code>AutoConfigVersion</code></h4>
+                        <p><strong>Purpose:</strong> Timestamp-based version identifier (YYYYMMDDNN format), similar to DNS SOA sequence numbers</p>
+                        <p><strong>Usage:</strong> Clients use this to determine if they have the latest configuration</p>
+                        <p><strong>Example:</strong> <code>2025072801</code> (January 28, 2025, version 01)</p>
                     </div>
+
                     <div class="config-section">
-                        <h4>AutoConfig Schema</h4>
-                        <ul>
-                            <li><code>Bootstrap</code> - Network bootstrap peers</li>
-                            <li><code>DNSResolvers</code> - DNS resolution endpoints</li>
-                            <li><code>DelegatedRouters</code> - Content routing endpoints</li>
-                            <li><code>DelegatedPublishers</code> - IPNS publishing endpoints</li>
-                        </ul>
+                        <h4><code>AutoConfigSchema</code></h4>
+                        <p><strong>Purpose:</strong> Schema version number for breaking changes</p>
+                        <p><strong>Usage:</strong> Allows clients to handle different config formats</p>
+                        <p><strong>Current:</strong> <code>4</code></p>
+                    </div>
+
+                    <div class="config-section">
+                        <h4><code>CacheTTL</code></h4>
+                        <p><strong>Purpose:</strong> Cache duration in seconds</p>
+                        <p><strong>Usage:</strong> A hint that clients should cache config for this duration, clients can override this hint but only as explicit user opt-in</p>
+                        <p><strong>Value:</strong> <code>86400</code> (24 hours)</p>
+                    </div>
+
+                    <div class="config-section">
+                        <h4><code>SystemRegistry</code></h4>
+                        <p><strong>Purpose:</strong> Discovery registry of all routing systems</p>
+                        <p><strong>Contains:</strong> System metadata, native configuration, and delegated API capabilities</p>
+                        <p><strong>Usage:</strong> Clients check here to understand system capabilities</p>
+                    </div>
+
+                    <div class="config-section">
+                        <h4><code>DNSResolvers</code></h4>
+                        <p><strong>Purpose:</strong> DNS-over-HTTPS resolvers organized by effective TLD</p>
+                        <p><strong>Usage:</strong> Resolving non-ICANN domains</p>
+                        <p><strong>Format:</strong> Maps eTLD to array of DoH endpoints</p>
+                    </div>
+
+                    <div class="config-section">
+                        <h4><code>DelegatedEndpoints</code></h4>
+                        <p><strong>Purpose:</strong> HTTP endpoints that provide routing services via delegation</p>
+                        <p><strong>Contains:</strong> Endpoint URL, supported systems, Read/Write API paths</p>
+                        <p><strong>Usage:</strong> Clients use these when they don't have native system support</p>
+                    </div>
+
+                    <div class="config-section">
+                        <h4><code>Profiles</code></h4>
+                        <p><strong>Purpose:</strong> Optional guidance for different client environments</p>
+                        <p><strong>Types:</strong> Browser (prefer delegated) vs Daemon (prefer native)</p>
+                        <p><strong>Usage:</strong> Implementations can use as hints but make their own decisions</p>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <section id="profiles">
+        <section id="systems">
             <div class="container">
-                <h2>Mainnet Profiles</h2>
-                <p>IPFS Mainnet AutoConfig provides specific configuration profiles optimized for different node types and use cases. Each profile defines appropriate routing strategies based on node capabilities and requirements.</p>
+                <h2>Well Known Routing Systems</h2>
+                <p>The registry defines routing systems with their capabilities and access methods:</p>
 
-                <h3>Available Profiles</h3>
-                <p>Each profile is designed for specific node characteristics and use cases:</p>
+                <style>
+                    .systems-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 1.5rem 0;
+                        background: #f8f9fa;
+                        border-radius: 0.5rem;
+                        overflow: hidden;
+                    }
+                    .systems-table th {
+                        background: #e9ecef;
+                        padding: 0.75rem;
+                        text-align: left;
+                        font-weight: 600;
+                        border-bottom: 2px solid #dee2e6;
+                    }
+                    .systems-table td {
+                        padding: 0.75rem;
+                        border-bottom: 1px solid #e9ecef;
+                    }
+                    .systems-table tr:last-child td {
+                        border-bottom: none;
+                    }
+                    .system-name {
+                        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                        font-weight: 600;
+                        color: #2d3748;
+                    }
+                    .system-type {
+                        display: inline-block;
+                        padding: 0.2rem 0.5rem;
+                        border-radius: 0.25rem;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                    }
+                    .type-native {
+                        background: #d1fae5;
+                        color: #065f46;
+                    }
+                    .type-delegated {
+                        background: #dbeafe;
+                        color: #1e40af;
+                    }
+                    .type-both {
+                        background: #fef3c7;
+                        color: #92400e;
+                    }
+                    .api-list {
+                        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                        font-size: 0.75rem;
+                        color: #4a5568;
+                    }
+                </style>
 
-                <div class="config-sections">
-                    <div class="config-section">
-                        <h4><code>mainnet-for-nodes-with-dht</code></h4>
-                        <p><strong>Purpose:</strong> For full IPFS nodes that actively participate in the Amino DHT network.</p>
-                        <p><strong>Characteristics:</strong> These are typically long-running, well-connected nodes (servers, desktop applications) that contribute to the DHT by storing routing records and responding to queries.</p>
-                        <p><strong>Routing Strategy:</strong> Primarily uses DHT for routing operations but supplements with delegated routing for content provider lookups to improve discovery performance.</p>
-                        <p><strong>Typical Use Cases:</strong> Kubo nodes, Rainbow gateways, IPFS Cluster nodes, always-on infrastructure nodes.</p>
+                <table class="systems-table">
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <th>Type</th>
+                            <th>Purpose</th>
+                            <th>APIs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://github.com/ipfs/specs/pull/497" class="system-name">AminoDHT</a></td>
+                            <td><span class="system-type type-both">Native + Delegated</span></td>
+                            <td>P2P content and peer routing via Kademlia DHT</td>
+                            <td class="api-list">/routing/v1/{providers,peers,ipns}</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://cid.contact" class="system-name">IPNI</a></td>
+                            <td><span class="system-type type-delegated">Delegated Only</span></td>
+                            <td>Fast content discovery from large storage providers</td>
+                            <td class="api-list">/routing/v1/providers</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://specs.ipfs.tech/ipns/ipns-record/" class="system-name">IPNS</a></td>
+                            <td><span class="system-type type-both">Native + Delegated</span></td>
+                            <td>Mutable name records pointing to CIDs</td>
+                            <td class="api-list">/routing/v1/ipns (R/W)</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://datatracker.ietf.org/doc/html/rfc8484" class="system-name">DNS</a></td>
+                            <td><span class="system-type type-both">Native + Delegated</span></td>
+                            <td>DNSLink and non-ICANN domain resolution</td>
+                            <td class="api-list">/dns-query</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://example.com" class="system-name">Example</a></td>
+                            <td><span class="system-type type-delegated">Delegated Only</span></td>
+                            <td>Demonstrates extensibility pattern</td>
+                            <td class="api-list">/example/v0/{read,write}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>System Types</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🟢 Native</h4>
+                        <p>Direct implementation within the client (e.g., DHT participation, local DNS resolver)</p>
                     </div>
-                    <div class="config-section">
-                        <h4><code>mainnet-for-nodes-without-dht</code></h4>
-                        <p><strong>Purpose:</strong> For resource-constrained or ephemeral nodes that cannot effectively participate in the DHT.</p>
-                        <p><strong>Characteristics:</strong> These nodes have limited resources, connectivity constraints, or short session lifetimes that make DHT participation impractical or impossible.</p>
-                        <p><strong>Routing Strategy:</strong> Relies entirely on delegated routing services for all routing operations (content providers, peer discovery, IPNS resolution).</p>
-                        <p><strong>Typical Use Cases:</strong> Browser-based IPFS nodes, mobile applications, embedded devices, service worker gateways, Helia in resource-constrained environments.</p>
+                    <div class="feature-card">
+                        <h4>🔵 Delegated</h4>
+                        <p>Access via HTTP endpoints when native support is unavailable or impractical</p>
                     </div>
-                    <div class="config-section">
-                        <h4><code>mainnet-for-ipns-publishers-with-http</code></h4>
-                        <p><strong>Purpose:</strong> For nodes that need to publish IPNS records using HTTP routing endpoints rather than DHT.</p>
-                        <p><strong>Characteristics:</strong> These nodes may have DHT access limitations or prefer HTTP-based publishing for reliability, performance, or architectural reasons.</p>
-                        <p><strong>Routing Strategy:</strong> Uses HTTP routing endpoints specifically for IPNS record publishing operations. May be combined with other profiles for reading operations.</p>
-                        <p><strong>Typical Use Cases:</strong> Content publishing services, CI/CD systems, automated publishing workflows, nodes behind restrictive firewalls.</p>
+                    <div class="feature-card">
+                        <h4>🟡 Both</h4>
+                        <p>Systems that can operate either natively or through delegation based on client capabilities</p>
                     </div>
                 </div>
 
-                <h3>Choosing the Right Profile</h3>
-                <p>Select profiles based on your node's capabilities and requirements:</p>
-                <ol class="question-steps">
-                    <li><strong>Can your node participate in DHT?</strong> If yes, use <code>mainnet-for-nodes-with-dht</code> for optimal network contribution.</li>
-                    <li><strong>Is your node resource-constrained or short-lived?</strong> Use <code>mainnet-for-nodes-without-dht</code> for delegated routing dependency.</li>
-                    <li><strong>Do you need to publish IPNS via HTTP?</strong> Add <code>mainnet-for-ipns-publishers-with-http</code> for publishing capabilities.</li>
-                    <li><strong>Multiple profiles can be used together</strong> when nodes need different routing strategies for different operations.</li>
-                </ol>
+                <h3>Adding New Systems</h3>
+                <p>The schema supports gradual ecosystem evolution: add systems to the registry with their API paths, update endpoints to declare support, and existing clients will ignore unknown APIs while new clients can leverage them immediately.</p>
+                
+                <p>This extensibility mechanism allows IPFS Mainnet to introduce new routing systems by providing delegated HTTP adapters that existing software can understand and query. For example, a novel routing system can be deployed with HTTP endpoints that speak the standard routing protocols, enabling immediate adoption without requiring native implementation support from existing IPFS clients. This approach enables:</p>
+                
+                <ul>
+                    <li><strong>Zero-friction deployment:</strong> New systems work immediately with all existing IPFS implementations that support delegated routing</li>
+                    <li><strong>Gradual native adoption:</strong> Implementations can add native support over time while using delegation as a bridge</li>
+                    <li><strong>Innovation without fragmentation:</strong> Experimental routing systems can be tested in production without breaking compatibility</li>
+                    <li><strong>Backward compatibility:</strong> Older clients continue working, simply ignoring systems they don't recognize</li>
+                </ul>
+
+                <h3>Client Implementation Logic</h3>
+                <p>Here's how clients should process the configuration:</p>
 
                 <div class="code-block">
-                    <div class="code-header">Profile Configuration Example</div>
-                    <pre>{
-  "DelegatedRouters": {
-    // DHT-participating nodes: Supplement DHT with provider lookups
-    "mainnet-for-nodes-with-dht": [
-      "https://[endpoint]/routing/v1/providers"
-    ],
-    // Non-DHT nodes: Full delegated routing dependency
-    "mainnet-for-nodes-without-dht": [
-      "https://[endpoint]/routing/v1/providers",  // Content provider discovery
-      "https://[endpoint]/routing/v1/peers",      // Peer routing and discovery
-      "https://[endpoint]/routing/v1/ipns"        // IPNS record resolution
-    ]
-  },
-  "DelegatedPublishers": {
-    // HTTP IPNS publishing: Nodes that publish IPNS via HTTP routing
-    "mainnet-for-ipns-publishers-with-http": [
-      "https://[endpoint]/routing/v1/ipns"        // IPNS record publishing
-    ]
-  },
+                    <div class="code-header">Client Processing Algorithm</div>
+                    <pre>// 1. Check SystemRegistry for available routing systems
+for system in autoconfig.SystemRegistry:
+    if client.supportsNative(system):
+        // Use native implementation with NativeConfig
+        client.configureNative(system, autoconfig.SystemRegistry[system].NativeConfig)
+    else:
+        // Use delegated routing via HTTP endpoints
+        for endpoint in autoconfig.DelegatedEndpoints:
+            if system in endpoint.Systems:
+                // Filter to only APIs this client recognizes
+                supportedReadAPIs = client.filterKnownAPIs(endpoint.Read)
+                supportedWriteAPIs = client.filterKnownAPIs(endpoint.Write)
+                // Configure delegated routing using only supported APIs
+                client.configureDelegated(system, endpoint, supportedReadAPIs, supportedWriteAPIs)
 
-  // Additional AutoConfig sections (Bootstrap, DNSResolvers, etc.)
-  // are shared across all profiles and define common network defaults
+// 2. Apply profile preferences (optional)
+profile = detectEnvironment() // "browser" or "daemon"
+if autoconfig.Profiles[profile]:
+    client.applyPreferences(autoconfig.Profiles[profile])
+
+// 3. Configure DNS resolvers
+for etld, resolvers in autoconfig.DNSResolvers:
+    client.configureDNS(etld, resolvers)</pre>
+                </div>
+
+                <h3>API Versioning Strategy</h3>
+                <p>Delegated utility servers can support multiple API versions simultaneously:</p>
+
+                <div class="code-block">
+                    <div class="code-header">API Version Evolution Example</div>
+                    <pre>{
+  "DelegatedEndpoints": {
+    "https://future-endpoint.example": {
+      "Systems": ["AminoDHT", "NewSystem"],
+      "Read": [
+        "/routing/v1/providers",    // Legacy API
+        "/routing/v2/providers",    // Enhanced API
+        "/routing/v2/content"       // New capability
+      ],
+      "Write": [
+        "/routing/v1/ipns",         // Legacy publishing
+        "/routing/v2/ipns"          // Enhanced publishing
+      ]
+    }
+  }
 }</pre>
                 </div>
             </div>
@@ -570,11 +703,11 @@
 
         <section id="implementation">
             <div class="container">
-                <h2>Implementation Status</h2>
+                <h2>Implementations Status</h2>
                 <div class="status-banner">
                     <div>
                         <h3>🚧 Work in Progress</h3>
-                        <p>IPFS Mainnet AutoConfig support is under active development for integration into two main IPFS implementation ecosystems:</p>
+                        <p>IPFS Mainnet AutoConfig support is under active development for integration into IPFS implementation ecosystems:</p>
                         <div class="ecosystem-section">
                             <h4><a href="https://github.com/ipfs/boxo">Boxo</a> (Go ecosystem)</h4>
                             <ul>
@@ -591,6 +724,51 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <h3>Example Implementation</h3>
+                <p>Here's a simplified example of how a client might consume this configuration:</p>
+
+                <div class="code-block">
+                    <div class="code-header">JavaScript Client Example</div>
+                    <pre>async function configureIPFS() {
+    // Fetch AutoConfig
+    const response = await fetch('https://config.ipfs-mainnet.org/autoconfig.json');
+    const autoconfig = await response.json();
+    
+    // Cache for 24 hours
+    localStorage.setItem('ipfs-autoconfig', JSON.stringify({
+        data: autoconfig,
+        expires: Date.now() + (autoconfig.CacheTTL * 1000)
+    }));
+    
+    // Define which systems this client supports natively
+    const nativeSystems = ['AminoDHT', 'IPNS']; // This client has native DHT and IPNS support
+    
+    // Configure routing systems
+    for (const [systemName, systemConfig] of Object.entries(autoconfig.SystemRegistry)) {
+        if (nativeSystems.includes(systemName)) {
+            // Use native implementation
+            if (systemName === 'AminoDHT' && canRunDHT()) {
+                configureNativeDHT(systemConfig.NativeConfig.Bootstrap);
+            } else if (systemName === 'IPNS') {
+                configureNativeIPNS(); // Native IPNS record handling
+            }
+        } else {
+            // Delegate to HTTP endpoints for unsupported systems
+            for (const [url, endpoint] of Object.entries(autoconfig.DelegatedEndpoints)) {
+                if (endpoint.Systems.includes(systemName)) {
+                    configureDelegatedRouting(systemName, url, endpoint);
+                }
+            }
+        }
+    }
+    
+    // Configure DNS resolvers
+    for (const [etld, resolvers] of Object.entries(autoconfig.DNSResolvers)) {
+        configureDNSResolver(etld, resolvers);
+    }
+}</pre>
                 </div>
             </div>
         </section>

@@ -1,34 +1,119 @@
 {
-  "AutoConfigVersion": 2025072301,
-  "AutoConfigSchema": 3,
-  "Bootstrap": [
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
-    "/dnsaddr/va1.bootstrap.libp2p.io/p2p/12D3KooWKnDdG3iXw9eTFijk3EWSunZcFi54Zka4wmtqtt6rPxc8",
-    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-    "/ip4/104.131.131.82/udp/4001/quic-v1/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
-  ],
+  "AutoConfigVersion": 2025072801,
+  "AutoConfigSchema": 4,
+  "CacheTTL": 86400,
+  "SystemRegistry": {
+    "AminoDHT": {
+      "URL": "https://github.com/ipfs/specs/pull/497",
+      "Description": "Public DHT swarm that implements the IPFS Kademlia DHT specification under protocol identifier /ipfs/kad/1.0.0",
+      "NativeConfig": {
+        "Bootstrap": [
+          "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+          "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+          "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+          "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+          "/dnsaddr/va1.bootstrap.libp2p.io/p2p/12D3KooWKnDdG3iXw9eTFijk3EWSunZcFi54Zka4wmtqtt6rPxc8",
+          "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+          "/ip4/104.131.131.82/udp/4001/quic-v1/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+        ]
+      },
+      "DelegatedConfig": {
+        "Read": [
+          "/routing/v1/providers",
+          "/routing/v1/peers",
+          "/routing/v1/ipns"
+        ],
+        "Write": []
+      }
+    },
+    "IPNI": {
+      "URL": "https://cid.contact",
+      "Description": "Network Indexer - content routing database for large storage providers",
+      "DelegatedConfig": {
+        "Read": [
+          "/routing/v1/providers"
+        ],
+        "Write": []
+      }
+    },
+    "IPNS": {
+      "URL": "https://specs.ipfs.tech/ipns/ipns-record/",
+      "Description": "InterPlanetary Name System - signed mutable records that point to CIDs with optional metadata",
+      "DelegatedConfig": {
+        "Read": [
+          "/routing/v1/ipns"
+        ],
+        "Write": [
+          "/routing/v1/ipns"
+        ]
+      }
+    },
+    "DNS": {
+      "URL": "https://datatracker.ietf.org/doc/html/rfc8484",
+      "Description": "DNS over HTTPS (DoH) - protocol for performing DNS resolution via the HTTPS protocol",
+      "DelegatedConfig": {
+        "Read": [
+          "/dns-query"
+        ],
+        "Write": []
+      }
+    },
+    "Example": {
+      "URL": "https://example.com",
+      "Description": "Example routing system demonstrating extensibility. Clients should ignore unknown APIs they don't recognize",
+      "DelegatedConfig": {
+        "Read": [
+          "/example/v0/read"
+        ],
+        "Write": [
+          "/example/v0/write"
+        ]
+      }
+    }
+  },
   "DNSResolvers": {
     "eth.": [
       "https://dns.eth.limo/dns-query",
       "https://dns.eth.link/dns-query"
     ]
   },
-  "DelegatedRouters": {
-    "mainnet-for-nodes-with-dht": [
-      "https://cid.contact/routing/v1/providers"
-    ],
-    "mainnet-for-nodes-without-dht": [
-      "https://delegated-ipfs.dev/routing/v1/providers",
-      "https://delegated-ipfs.dev/routing/v1/peers",
-      "https://delegated-ipfs.dev/routing/v1/ipns"
-    ]
+  "DelegatedEndpoints": {
+    "https://cid.contact": {
+      "Systems": ["IPNI"],
+      "Read": [
+        "/routing/v1/providers"
+      ],
+      "Write": []
+    },
+    "https://delegated-ipfs.dev": {
+      "Systems": ["AminoDHT", "IPNI", "IPNS", "DNS"],
+      "Read": [
+        "/routing/v1/providers",
+        "/routing/v1/peers",
+        "/routing/v1/ipns",
+        "/dns-query"
+      ],
+      "Write": [
+        "/routing/v1/ipns"
+      ]
+    },
+    "https://example.com": {
+      "Systems": ["Example"],
+      "Read": [
+        "/example/v0/read"
+      ],
+      "Write": [
+        "/example/v0/write"
+      ]
+    }
   },
-  "DelegatedPublishers": {
-    "mainnet-for-ipns-publishers-with-http": [
-      "https://delegated-ipfs.dev/routing/v1/ipns"
-    ]
+  "Profiles": {
+    "browser": {
+      "PreferDelegated": ["AminoDHT", "IPNI", "IPNS", "DNS"]
+    },
+    "daemon": {
+      "PreferNative": ["AminoDHT", "IPNS", "DNS"],
+      "PreferDelegated": ["IPNI"]
+    }
   }
 }
