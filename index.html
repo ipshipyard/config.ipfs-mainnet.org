@@ -460,7 +460,7 @@
         <section id="schema">
             <div class="container">
                 <h2>Configuration Format</h2>
-                <p>The AutoConfig format consists of five main sections that work together to provide comprehensive routing configuration:</p>
+                <p>The AutoConfig format consists of the following sections that work together to provide comprehensive routing configuration:</p>
 
                 <div class="config-sections">
                     <div class="config-section">
@@ -590,19 +590,13 @@
                             <td><a href="https://github.com/ipfs/specs/pull/497" class="system-name">AminoDHT</a></td>
                             <td><span class="system-type type-both">Native + Delegated</span></td>
                             <td>P2P content and peer routing via Kademlia DHT</td>
-                            <td class="api-list">/routing/v1/{providers,peers,ipns}</td>
+                            <td class="api-list">/routing/v1/{providers,peers,ipns} (R/W for ipns)</td>
                         </tr>
                         <tr>
                             <td><a href="https://cid.contact" class="system-name">IPNI</a></td>
                             <td><span class="system-type type-delegated">Delegated Only</span></td>
                             <td>Fast content discovery from large storage providers</td>
                             <td class="api-list">/routing/v1/providers</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://specs.ipfs.tech/ipns/ipns-record/" class="system-name">IPNS</a></td>
-                            <td><span class="system-type type-both">Native + Delegated</span></td>
-                            <td>Mutable name records pointing to CIDs</td>
-                            <td class="api-list">/routing/v1/ipns (R/W)</td>
                         </tr>
                         <tr>
                             <td><a href="https://example.com" class="system-name">Example</a></td>
@@ -739,7 +733,7 @@ for etld, resolvers in autoconfig.DNSResolvers:
     }));
     
     // Define which systems this client supports natively
-    const nativeSystems = ['AminoDHT', 'IPNS']; // This client has native DHT and IPNS support
+    const nativeSystems = ['AminoDHT']; // This client has native DHT support
     
     // Configure routing systems
     for (const [systemName, systemConfig] of Object.entries(autoconfig.SystemRegistry)) {
@@ -747,8 +741,6 @@ for etld, resolvers in autoconfig.DNSResolvers:
             // Use native implementation
             if (systemName === 'AminoDHT' && canRunDHT()) {
                 configureNativeDHT(systemConfig.NativeConfig.Bootstrap);
-            } else if (systemName === 'IPNS') {
-                configureNativeIPNS(); // Native IPNS record handling
             }
         } else {
             // Delegate to HTTP endpoints for unsupported systems

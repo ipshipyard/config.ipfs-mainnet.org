@@ -23,7 +23,9 @@
           "/routing/v1/peers",
           "/routing/v1/ipns"
         ],
-        "Write": []
+        "Write": [
+          "/routing/v1/ipns"
+        ]
       }
     },
     "IPNI": {
@@ -34,18 +36,6 @@
           "/routing/v1/providers"
         ],
         "Write": []
-      }
-    },
-    "IPNS": {
-      "URL": "https://specs.ipfs.tech/ipns/ipns-record/",
-      "Description": "InterPlanetary Name System - signed mutable records that point to CIDs with optional metadata",
-      "DelegatedConfig": {
-        "Read": [
-          "/routing/v1/ipns"
-        ],
-        "Write": [
-          "/routing/v1/ipns"
-        ]
       }
     },
     "Example": {
@@ -76,7 +66,7 @@
       "Write": []
     },
     "https://delegated-ipfs.dev": {
-      "Systems": ["AminoDHT", "IPNI", "IPNS"],
+      "Systems": ["AminoDHT", "IPNI"],
       "Read": [
         "/routing/v1/providers",
         "/routing/v1/peers",
@@ -98,10 +88,10 @@
   },
   "Profiles": {
     "browser": {
-      "PreferDelegated": ["AminoDHT", "IPNI", "IPNS"]
+      "PreferDelegated": ["AminoDHT", "IPNI"]
     },
     "daemon": {
-      "PreferNative": ["AminoDHT", "IPNS"],
+      "PreferNative": ["AminoDHT"],
       "PreferDelegated": ["IPNI"]
     }
   }
