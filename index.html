@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧭 IPFS Mainnet AutoConfig - Dynamic Configuration for IPFS Mainnet Swarm</title>
-    <meta name="description" content="IPFS Mainnet AutoConfig hosts dynamic configuration for routing systems, bootstrap peers, DNS resolvers, and delegated endpoints in the IPFS Mainnet swarm.">
+    <meta name="description" content="IPFS Mainnet AutoConfig hosts dynamic configuration for routing systems, bootstrap peers, DNS resolvers for special TLDs, and delegated endpoints in the IPFS Mainnet swarm.">
     <style>
         * {
             margin: 0;
@@ -419,7 +419,7 @@
         <section class="hero">
             <div class="container">
                 <h2>Dynamic Configuration<br>for IPFS Mainnet</h2>
-                <p class="lead">Updateable system registry for routing systems, bootstrap peers, DNS resolvers, and delegated endpoints.</p>
+                <p class="lead">Updateable system registry for routing systems, bootstrap peers, special TLD resolvers, and delegated endpoints.</p>
                 <div class="url-input-group">
                     <input type="text" class="url-input" value="https://config.ipfs-mainnet.org/autoconfig.json" readonly>
                     <button class="btn-secondary" onclick="copyUrl()">Copy</button>
@@ -434,7 +434,7 @@
         <section id="overview">
             <div class="container">
                 <h2>Overview</h2>
-                <p>IPFS Mainnet AutoConfig provides a standardized, extensible configuration format for IPFS implementations to discover and configure routing systems, bootstrap peers, DNS resolvers, and delegated endpoints dynamically.</p>
+                <p>IPFS Mainnet AutoConfig provides a standardized, extensible configuration format for IPFS implementations to discover and configure routing systems, bootstrap peers, DNS resolvers for special TLDs, and delegated endpoints dynamically.</p>
 
                 <h3>What is AutoConfig?</h3>
                 <p>This version introduces a system-centric approach that moves away from hardcoded profiles to a flexible registry where routing systems declare their capabilities and endpoints specify which systems they support. This enables:</p>
@@ -460,7 +460,7 @@
         <section id="schema">
             <div class="container">
                 <h2>Configuration Format</h2>
-                <p>The AutoConfig format consists of six main sections that work together to provide comprehensive routing configuration:</p>
+                <p>The AutoConfig format consists of five main sections that work together to provide comprehensive routing configuration:</p>
 
                 <div class="config-sections">
                     <div class="config-section">
@@ -493,9 +493,10 @@
 
                     <div class="config-section">
                         <h4><code>DNSResolvers</code></h4>
-                        <p><strong>Purpose:</strong> DNS-over-HTTPS resolvers organized by effective TLD</p>
-                        <p><strong>Usage:</strong> Resolving non-ICANN domains</p>
+                        <p><strong>Purpose:</strong> DNS-over-HTTPS resolvers for special TLDs</p>
+                        <p><strong>Usage:</strong> Resolving non-ICANN domains like .eth</p>
                         <p><strong>Format:</strong> Maps eTLD to array of DoH endpoints</p>
+                        <p><strong>Note:</strong> Implementations use default resolver from the OS or explicitly choose DoH resolver (e.g. in browsers)</p>
                     </div>
 
                     <div class="config-section">
@@ -604,12 +605,6 @@
                             <td class="api-list">/routing/v1/ipns (R/W)</td>
                         </tr>
                         <tr>
-                            <td><a href="https://datatracker.ietf.org/doc/html/rfc8484" class="system-name">DNS</a></td>
-                            <td><span class="system-type type-both">Native + Delegated</span></td>
-                            <td>DNSLink and non-ICANN domain resolution</td>
-                            <td class="api-list">/dns-query</td>
-                        </tr>
-                        <tr>
                             <td><a href="https://example.com" class="system-name">Example</a></td>
                             <td><span class="system-type type-delegated">Delegated Only</span></td>
                             <td>Demonstrates extensibility pattern</td>
@@ -671,7 +666,8 @@ profile = detectEnvironment() // "browser" or "daemon"
 if autoconfig.Profiles[profile]:
     client.applyPreferences(autoconfig.Profiles[profile])
 
-// 3. Configure DNS resolvers
+// 3. Configure DNS resolvers for special TLDs
+// Note: Implementations use OS default or explicit DoH resolver
 for etld, resolvers in autoconfig.DNSResolvers:
     client.configureDNS(etld, resolvers)</pre>
                 </div>
@@ -764,7 +760,8 @@ for etld, resolvers in autoconfig.DNSResolvers:
         }
     }
     
-    // Configure DNS resolvers
+    // Configure DNS resolvers for special TLDs
+    // Note: Use OS default resolver or explicit DoH for general domains
     for (const [etld, resolvers] of Object.entries(autoconfig.DNSResolvers)) {
         configureDNSResolver(etld, resolvers);
     }

@@ -1,5 +1,5 @@
 {
-  "AutoConfigVersion": 2025072801,
+  "AutoConfigVersion": 2025072901,
   "AutoConfigSchema": 4,
   "CacheTTL": 86400,
   "SystemRegistry": {
@@ -48,16 +48,6 @@
         ]
       }
     },
-    "DNS": {
-      "URL": "https://datatracker.ietf.org/doc/html/rfc8484",
-      "Description": "DNS over HTTPS (DoH) - protocol for performing DNS resolution via the HTTPS protocol",
-      "DelegatedConfig": {
-        "Read": [
-          "/dns-query"
-        ],
-        "Write": []
-      }
-    },
     "Example": {
       "URL": "https://example.com",
       "Description": "Example routing system demonstrating extensibility. Clients should ignore unknown APIs they don't recognize",
@@ -86,12 +76,11 @@
       "Write": []
     },
     "https://delegated-ipfs.dev": {
-      "Systems": ["AminoDHT", "IPNI", "IPNS", "DNS"],
+      "Systems": ["AminoDHT", "IPNI", "IPNS"],
       "Read": [
         "/routing/v1/providers",
         "/routing/v1/peers",
-        "/routing/v1/ipns",
-        "/dns-query"
+        "/routing/v1/ipns"
       ],
       "Write": [
         "/routing/v1/ipns"
@@ -109,10 +98,10 @@
   },
   "Profiles": {
     "browser": {
-      "PreferDelegated": ["AminoDHT", "IPNI", "IPNS", "DNS"]
+      "PreferDelegated": ["AminoDHT", "IPNI", "IPNS"]
     },
     "daemon": {
-      "PreferNative": ["AminoDHT", "IPNS", "DNS"],
+      "PreferNative": ["AminoDHT", "IPNS"],
       "PreferDelegated": ["IPNI"]
     }
   }
