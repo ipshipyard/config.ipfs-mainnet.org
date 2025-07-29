@@ -85,14 +85,5 @@
         "/example/v0/write"
       ]
     }
-  },
-  "Profiles": {
-    "browser": {
-      "PreferDelegated": ["AminoDHT", "IPNI"]
-    },
-    "daemon": {
-      "PreferNative": ["AminoDHT"],
-      "PreferDelegated": ["IPNI"]
-    }
   }
 }

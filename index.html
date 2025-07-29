@@ -451,8 +451,7 @@
                 <ol class="process-steps">
                     <li><strong>Extensibility:</strong> Unknown APIs are safely ignored, allowing gradual ecosystem evolution</li>
                     <li><strong>Endpoint-Level Capabilities:</strong> Each endpoint declares exactly which APIs it supports</li>
-                    <li><strong>Profile Guidance:</strong> Optional hints for browser vs daemon environments without enforcement</li>
-                    <li><strong>24-Hour Caching:</strong> Clients cache configurations locally with automatic refresh</li>
+                    <li><strong>Configurable Caching:</strong> Clients cache configurations locally based on CacheTTL with a maximum of 24 hours</li>
                 </ol>
             </div>
         </section>
@@ -480,8 +479,8 @@
                     <div class="config-section">
                         <h4><code>CacheTTL</code></h4>
                         <p><strong>Purpose:</strong> Cache duration in seconds</p>
-                        <p><strong>Usage:</strong> A hint that clients should cache config for this duration, clients can override this hint but only as explicit user opt-in</p>
-                        <p><strong>Value:</strong> <code>86400</code> (24 hours)</p>
+                        <p><strong>Usage:</strong> A hint that clients should cache config for this duration (capped at 24 hours maximum), clients can override this hint but only as explicit user opt-in</p>
+                        <p><strong>Default:</strong> <code>86400</code> (24 hours)</p>
                     </div>
 
                     <div class="config-section">
@@ -506,12 +505,6 @@
                         <p><strong>Usage:</strong> Clients use these when they don't have native system support</p>
                     </div>
 
-                    <div class="config-section">
-                        <h4><code>Profiles</code></h4>
-                        <p><strong>Purpose:</strong> Optional guidance for different client environments</p>
-                        <p><strong>Types:</strong> Browser (prefer delegated) vs Daemon (prefer native)</p>
-                        <p><strong>Usage:</strong> Implementations can use as hints but make their own decisions</p>
-                    </div>
                 </div>
 
             </div>
@@ -635,36 +628,8 @@
                     <li><strong>Backward compatibility:</strong> Older clients continue working, simply ignoring systems they don't recognize</li>
                 </ul>
 
-                <h3>Client Implementation Logic</h3>
-                <p>Here's how clients should process the configuration:</p>
-
-                <div class="code-block">
-                    <div class="code-header">Client Processing Algorithm</div>
-                    <pre>// 1. Check SystemRegistry for available routing systems
-for system in autoconfig.SystemRegistry:
-    if client.supportsNative(system):
-        // Use native implementation with NativeConfig
-        client.configureNative(system, autoconfig.SystemRegistry[system].NativeConfig)
-    else:
-        // Use delegated routing via HTTP endpoints
-        for endpoint in autoconfig.DelegatedEndpoints:
-            if system in endpoint.Systems:
-                // Filter to only APIs this client recognizes
-                supportedReadAPIs = client.filterKnownAPIs(endpoint.Read)
-                supportedWriteAPIs = client.filterKnownAPIs(endpoint.Write)
-                // Configure delegated routing using only supported APIs
-                client.configureDelegated(system, endpoint, supportedReadAPIs, supportedWriteAPIs)
-
-// 2. Apply profile preferences (optional)
-profile = detectEnvironment() // "browser" or "daemon"
-if autoconfig.Profiles[profile]:
-    client.applyPreferences(autoconfig.Profiles[profile])
-
-// 3. Configure DNS resolvers for special TLDs
-// Note: Implementations use OS default or explicit DoH resolver
-for etld, resolvers in autoconfig.DNSResolvers:
-    client.configureDNS(etld, resolvers)</pre>
-                </div>
+                <h3>Client Implementation</h3>
+                <p>Clients should process the configuration by checking available systems, determining native vs delegated routing support, and configuring DNS resolvers for special TLDs.</p>
 
                 <h3>API Versioning Strategy</h3>
                 <p>Delegated utility servers can support multiple API versions simultaneously:</p>
@@ -716,8 +681,31 @@ for etld, resolvers in autoconfig.DNSResolvers:
                     </div>
                 </div>
 
-                <h3>Example Implementation</h3>
-                <p>Here's a simplified example of how a client might consume this configuration:</p>
+                <h4>Processing Algorithm</h4>
+                <div class="code-block">
+                    <div class="code-header">Pseudo-code</div>
+                    <pre>// 1. Check SystemRegistry for available routing systems
+for system in autoconfig.SystemRegistry:
+    if client.supportsNative(system):
+        // Use native implementation with NativeConfig
+        client.configureNative(system, autoconfig.SystemRegistry[system].NativeConfig)
+    else:
+        // Use delegated routing via HTTP endpoints
+        for endpoint in autoconfig.DelegatedEndpoints:
+            if system in endpoint.Systems:
+                // Filter to only APIs this client recognizes
+                supportedReadAPIs = client.filterKnownAPIs(endpoint.Read)
+                supportedWriteAPIs = client.filterKnownAPIs(endpoint.Write)
+                // Configure delegated routing using only supported APIs
+                client.configureDelegated(system, endpoint, supportedReadAPIs, supportedWriteAPIs)
+
+// 2. Configure DNS resolvers for special TLDs
+// Note: Implementations use OS default or explicit DoH resolver
+for etld, resolvers in autoconfig.DNSResolvers:
+    client.configureDNS(etld, resolvers)</pre>
+                </div>
+
+                <h4>Example Implementation</h4>
 
                 <div class="code-block">
                     <div class="code-header">JavaScript Client Example</div>
@@ -726,10 +714,12 @@ for etld, resolvers in autoconfig.DNSResolvers:
     const response = await fetch('https://config.ipfs-mainnet.org/autoconfig.json');
     const autoconfig = await response.json();
     
-    // Cache for 24 hours
+    // Cache for minimum of 24 hours or CacheTTL from config
+    const maxCacheSeconds = 24 * 60 * 60; // 24 hours
+    const cacheTTL = Math.min(maxCacheSeconds, autoconfig.CacheTTL || maxCacheSeconds);
     localStorage.setItem('ipfs-autoconfig', JSON.stringify({
         data: autoconfig,
-        expires: Date.now() + (autoconfig.CacheTTL * 1000)
+        expires: Date.now() + (cacheTTL * 1000)
     }));
     
     // Define which systems this client supports natively
@@ -759,6 +749,92 @@ for etld, resolvers in autoconfig.DNSResolvers:
     }
 }</pre>
                 </div>
+
+                <h3>Implementation Guidance</h3>
+                <p>Different IPFS implementations have different constraints and capabilities. Here are recommendations for common deployment scenarios:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🌐 Browser Implementations</h4>
+                        <p><strong>Constraints:</strong> Limited networking, no raw sockets, CORS restrictions</p>
+                        <p><strong>Recommendations:</strong></p>
+                        <ul style="text-align: left; padding-left: 1.5rem;">
+                            <li>Prefer delegated routing for all systems</li>
+                            <li>Use HTTPS endpoints exclusively</li>
+                            <li>Implement aggressive caching</li>
+                            <li>Consider service worker integration</li>
+                        </ul>
+                        <div class="code-block" style="margin-top: 1rem;">
+                            <pre style="text-align: left;">// Browser-optimized configuration
+const browserDefaults = {
+    preferDelegated: ['AminoDHT', 'IPNI'],
+    enableNative: [] // No native routing in browsers
+};</pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🖥️ Daemon Implementations</h4>
+                        <p><strong>Capabilities:</strong> Full networking, persistent storage, background processing</p>
+                        <p><strong>Recommendations:</strong></p>
+                        <ul style="text-align: left; padding-left: 1.5rem;">
+                            <li>Prefer native DHT participation</li>
+                            <li>Use delegated routing for specialized systems (IPNI)</li>
+                            <li>Enable both TCP and QUIC transports</li>
+                            <li>Participate in content providing (native AminoDHT only)</li>
+                        </ul>
+                        <div class="code-block" style="margin-top: 1rem;">
+                            <pre style="text-align: left;">// Daemon-optimized configuration
+const daemonDefaults = {
+    preferNative: ['AminoDHT'],
+    preferDelegated: ['IPNI'],
+    enableProviding: true // Only works with native AminoDHT
+};</pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>📱 Mobile/Resource-Constrained</h4>
+                        <p><strong>Constraints:</strong> Battery life, bandwidth limits, intermittent connectivity</p>
+                        <p><strong>Recommendations:</strong></p>
+                        <ul style="text-align: left; padding-left: 1.5rem;">
+                            <li>Hybrid approach based on network type</li>
+                            <li>Delegated routing on cellular</li>
+                            <li>Optional native DHT on WiFi</li>
+                            <li>Aggressive connection pruning</li>
+                        </ul>
+                        <div class="code-block" style="margin-top: 1rem;">
+                            <pre style="text-align: left;">// Mobile-optimized configuration
+const mobileDefaults = {
+    preferDelegated: ['AminoDHT', 'IPNI'],
+    enableNativeOnWifi: ['AminoDHT'],
+    maxConnections: 50
+};</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Platform-Specific Considerations</h4>
+                <p>Implementers should make these decisions at build time based on their target platform rather than reading them from the autoconfig. The autoconfig provides the <em>what</em> (available systems and endpoints), while your implementation decides the <em>how</em> (native vs delegated routing).</p>
+
+                <div class="code-block">
+                    <div class="code-header">Implementation Decision Tree</div>
+                    <pre>// Instead of reading profiles from autoconfig, hard-code platform decisions:
+function getRoutingStrategy() {
+    if (typeof window !== 'undefined' && !window.require) {
+        // Browser environment
+        return { preferDelegated: true };
+    } else if (process.env.IPFS_LITE_MODE) {
+        // Resource-constrained environment
+        return { preferDelegated: true, maxConnections: 50 };
+    } else {
+        // Full daemon environment
+        return { preferNative: true, enableProviding: true }; // Providing requires native AminoDHT
+    }
+}</pre>
+                </div>
+
+                <p>This approach provides clearer separation between configuration data (what services are available) and implementation decisions (how to use those services), making both the autoconfig and implementations simpler and more maintainable.</p>
             </div>
         </section>
 
