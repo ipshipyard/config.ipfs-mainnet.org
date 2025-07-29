@@ -40,7 +40,7 @@
     },
     "Example": {
       "URL": "https://example.com",
-      "Description": "Example routing system demonstrating extensibility. Clients should ignore unknown APIs they don't recognize",
+      "Description": "Test system for implementers to verify graceful handling of unknown systems and APIs. Production clients MUST ignore this system and its /example/* endpoints without errors.",
       "DelegatedConfig": {
         "Read": [
           "/example/v0/read"
