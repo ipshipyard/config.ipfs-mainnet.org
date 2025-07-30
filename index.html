@@ -514,6 +514,77 @@
             <div class="container">
                 <h2>Well Known Routing Systems</h2>
                 <p>The registry defines routing systems with their capabilities and access methods:</p>
+                
+                <div class="routing-legend">
+                    <h3>System Routing Types</h3>
+                    <p class="legend-intro">IPFS routing systems can operate in different modes depending on client capabilities and requirements:</p>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-icon">🔌</span>
+                            <div class="legend-content">
+                                <span class="legend-badge type-native">Native</span>
+                                <div class="legend-description">
+                                    <strong>Direct implementation within the client</strong><br>
+                                    Examples: DHT participation, local DNS resolver<br>
+                                    <em>Best for: Full nodes, daemons with persistent connectivity</em>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-icon">🌐</span>
+                            <div class="legend-content">
+                                <span class="legend-badge type-delegated">Delegated</span>
+                                <div class="legend-description">
+                                    <strong>Access via HTTP endpoints</strong><br>
+                                    Used when native support is unavailable or impractical<br>
+                                    <em>Best for: Browsers, mobile apps, resource-constrained environments</em>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-icon">🔀</span>
+                            <div class="legend-content">
+                                <span class="legend-badge type-both">Hybrid</span>
+                                <div class="legend-description">
+                                    <strong>Both native and delegated support available</strong><br>
+                                    Clients choose based on their capabilities and constraints<br>
+                                    <em>Best for: Flexible implementations that adapt to environment</em>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-diagram">
+                    <h3>Implementation Decision Flow</h3>
+                    <div class="flow-container">
+                        <div class="flow-step">
+                            <div class="flow-question">Does your client support native implementation?</div>
+                            <div class="flow-branches">
+                                <div class="flow-branch flow-yes">
+                                    <div class="flow-arrow">YES</div>
+                                    <div class="flow-result native-result">
+                                        <span class="flow-icon">🔌</span>
+                                        <div class="flow-text">
+                                            <strong>Use Native Config</strong>
+                                            <small>Bootstrap peers, direct DHT participation</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flow-branch flow-no">
+                                    <div class="flow-arrow">NO</div>
+                                    <div class="flow-result delegated-result">
+                                        <span class="flow-icon">🌐</span>
+                                        <div class="flow-text">
+                                            <strong>Use Delegated Endpoints</strong>
+                                            <small>HTTP routing via configured endpoints</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <style>
                     .systems-table {
@@ -567,6 +638,249 @@
                         font-size: 0.75rem;
                         color: #4a5568;
                     }
+
+                    .routing-legend {
+                        background: #f8f9fa;
+                        border: 1px solid #e2e8f0;
+                        border-radius: 0.75rem;
+                        padding: 1.5rem;
+                        margin: 2rem 0;
+                    }
+
+                    .routing-legend h3 {
+                        margin-bottom: 1rem;
+                        color: #2d3748;
+                        font-size: 1.25rem;
+                    }
+
+                    .legend-intro {
+                        color: #4a5568;
+                        margin-bottom: 1.5rem;
+                        font-style: italic;
+                    }
+
+                    .legend-items {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1.5rem;
+                    }
+
+                    .legend-item {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 1rem;
+                        padding: 1rem;
+                        background: #ffffff;
+                        border-radius: 0.5rem;
+                        border: 1px solid #e2e8f0;
+                    }
+
+                    .legend-icon {
+                        font-size: 1.5rem;
+                        width: 2rem;
+                        text-align: center;
+                        flex-shrink: 0;
+                        margin-top: 0.25rem;
+                    }
+
+                    .legend-content {
+                        flex: 1;
+                    }
+
+                    .legend-badge {
+                        display: inline-block;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 0.25rem;
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .legend-description {
+                        color: #4a5568;
+                        font-size: 0.875rem;
+                        line-height: 1.5;
+                    }
+
+                    .legend-description strong {
+                        color: #2d3748;
+                        display: block;
+                        margin-bottom: 0.25rem;
+                    }
+
+                    .legend-description em {
+                        color: #718096;
+                        font-size: 0.8rem;
+                    }
+
+                    @media (min-width: 1024px) {
+                        .legend-items {
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 1rem;
+                        }
+                        
+                        .legend-item {
+                            flex-direction: column;
+                            text-align: center;
+                            align-items: center;
+                        }
+                        
+                        .legend-icon {
+                            margin-bottom: 0.5rem;
+                        }
+                    }
+
+                    .flow-diagram {
+                        background: #ffffff;
+                        border: 2px solid #e2e8f0;
+                        border-radius: 0.75rem;
+                        padding: 1.5rem;
+                        margin: 2rem 0;
+                    }
+
+                    .flow-diagram h3 {
+                        margin-bottom: 1.5rem;
+                        color: #2d3748;
+                        font-size: 1.25rem;
+                        text-align: center;
+                    }
+
+                    .flow-container {
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .flow-step {
+                        text-align: center;
+                        max-width: 600px;
+                    }
+
+                    .flow-question {
+                        background: #edf2f7;
+                        padding: 1rem;
+                        border-radius: 0.5rem;
+                        font-weight: 600;
+                        color: #2d3748;
+                        margin-bottom: 1.5rem;
+                        border: 2px solid #cbd5e0;
+                    }
+
+                    .flow-branches {
+                        display: flex;
+                        gap: 2rem;
+                        justify-content: center;
+                    }
+
+                    .flow-branch {
+                        flex: 1;
+                        max-width: 200px;
+                    }
+
+                    .flow-arrow {
+                        background: #4a5568;
+                        color: white;
+                        padding: 0.5rem 1rem;
+                        border-radius: 1rem;
+                        font-weight: 600;
+                        font-size: 0.875rem;
+                        margin-bottom: 1rem;
+                        display: inline-block;
+                    }
+
+                    .flow-result {
+                        padding: 1rem;
+                        border-radius: 0.5rem;
+                        border: 2px solid;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        text-align: left;
+                    }
+
+                    .native-result {
+                        background: #f0fff4;
+                        border-color: #68d391;
+                    }
+
+                    .delegated-result {
+                        background: #f0f9ff;
+                        border-color: #63b3ed;
+                    }
+
+                    .flow-icon {
+                        font-size: 1.5rem;
+                        flex-shrink: 0;
+                    }
+
+                    .flow-text strong {
+                        display: block;
+                        color: #2d3748;
+                        margin-bottom: 0.25rem;
+                    }
+
+                    .flow-text small {
+                        color: #4a5568;
+                        font-size: 0.75rem;
+                    }
+
+                    @media (max-width: 640px) {
+                        .flow-branches {
+                            flex-direction: column;
+                            gap: 1rem;
+                        }
+                        
+                        .flow-branch {
+                            max-width: none;
+                        }
+                    }
+
+                    .routing-card-icon {
+                        font-size: 2.5rem;
+                        margin-bottom: 1rem;
+                    }
+
+                    .routing-card-native {
+                        background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+                        border-color: #68d391;
+                    }
+
+                    .routing-card-delegated {
+                        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+                        border-color: #63b3ed;
+                    }
+
+                    .routing-card-both {
+                        background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+                        border-color: #f6e05e;
+                    }
+
+                    .code-block-native {
+                        border-left: 4px solid #68d391;
+                    }
+
+                    .code-block-delegated {
+                        border-left: 4px solid #63b3ed;
+                    }
+
+                    .code-block-mixed {
+                        border-left: 4px solid #f6e05e;
+                    }
+
+                    .code-header-native::before {
+                        content: "🔌 ";
+                        color: #38a169;
+                    }
+
+                    .code-header-delegated::before {
+                        content: "🌐 ";
+                        color: #3182ce;
+                    }
+
+                    .code-header-mixed::before {
+                        content: "🔀 ";
+                        color: #d69e2e;
+                    }
                 </style>
 
                 <table class="systems-table">
@@ -581,40 +895,25 @@
                     <tbody>
                         <tr>
                             <td><a href="https://github.com/ipfs/specs/pull/497" class="system-name">AminoDHT</a></td>
-                            <td><span class="system-type type-both">Native + Delegated</span></td>
+                            <td><span class="system-type type-both">🔀 Native + Delegated</span></td>
                             <td>P2P content and peer routing via Kademlia DHT</td>
                             <td class="api-list">/routing/v1/{providers,peers,ipns} (R/W for ipns)</td>
                         </tr>
                         <tr>
                             <td><a href="https://cid.contact" class="system-name">IPNI</a></td>
-                            <td><span class="system-type type-delegated">Delegated Only</span></td>
+                            <td><span class="system-type type-delegated">🌐 Delegated Only</span></td>
                             <td>Fast content discovery from large storage providers</td>
                             <td class="api-list">/routing/v1/providers</td>
                         </tr>
                         <tr>
                             <td><a href="https://example.com" class="system-name">Example</a></td>
-                            <td><span class="system-type type-delegated">Delegated Only</span></td>
+                            <td><span class="system-type type-delegated">🌐 Delegated Only</span></td>
                             <td>Test system for verifying graceful handling of unknown APIs</td>
                             <td class="api-list">/example/v0/{read,write}</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3>System Types</h3>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h4>🟢 Native</h4>
-                        <p>Direct implementation within the client (e.g., DHT participation, local DNS resolver)</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>🔵 Delegated</h4>
-                        <p>Access via HTTP endpoints when native support is unavailable or impractical</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>🟡 Both</h4>
-                        <p>Systems that can operate either natively or through delegation based on client capabilities</p>
-                    </div>
-                </div>
 
                 <h3>Adding New Systems</h3>
                 <p>The schema supports gradual ecosystem evolution: add systems to the registry with their API paths, update endpoints to declare support, and existing clients will ignore unknown APIs while new clients can leverage them immediately.</p>
@@ -634,8 +933,8 @@
                 <h3>API Versioning Strategy</h3>
                 <p>Delegated utility servers can support multiple API versions simultaneously:</p>
 
-                <div class="code-block">
-                    <div class="code-header">API Version Evolution Example</div>
+                <div class="code-block code-block-delegated">
+                    <div class="code-header code-header-delegated">API Version Evolution Example</div>
                     <pre>{
   "DelegatedEndpoints": {
     "https://future-endpoint.example": {
@@ -682,8 +981,8 @@
                 </div>
 
                 <h4>Processing Algorithm</h4>
-                <div class="code-block">
-                    <div class="code-header">Pseudo-code</div>
+                <div class="code-block code-block-mixed">
+                    <div class="code-header code-header-mixed">Pseudo-code</div>
                     <pre>// 1. Check SystemRegistry for available routing systems
 for system in autoconfig.SystemRegistry:
     if client.supportsNative(system):
@@ -707,8 +1006,8 @@ for etld, resolvers in autoconfig.DNSResolvers:
 
                 <h4>Example Implementation</h4>
 
-                <div class="code-block">
-                    <div class="code-header">JavaScript Client Example</div>
+                <div class="code-block code-block-mixed">
+                    <div class="code-header code-header-mixed">JavaScript Client Example</div>
                     <pre>async function configureIPFS() {
     // Fetch AutoConfig
     const response = await fetch('https://config.ipfs-mainnet.org/autoconfig.json');
@@ -764,7 +1063,7 @@ for etld, resolvers in autoconfig.DNSResolvers:
                             <li>Implement aggressive caching</li>
                             <li>Consider service worker integration</li>
                         </ul>
-                        <div class="code-block" style="margin-top: 1rem;">
+                        <div class="code-block code-block-delegated" style="margin-top: 1rem;">
                             <pre style="text-align: left;">// Browser-optimized configuration
 const browserDefaults = {
     preferDelegated: ['AminoDHT', 'IPNI'],
@@ -783,7 +1082,7 @@ const browserDefaults = {
                             <li>Enable both TCP and QUIC transports</li>
                             <li>Participate in content providing (native AminoDHT only)</li>
                         </ul>
-                        <div class="code-block" style="margin-top: 1rem;">
+                        <div class="code-block code-block-mixed" style="margin-top: 1rem;">
                             <pre style="text-align: left;">// Daemon-optimized configuration
 const daemonDefaults = {
     preferNative: ['AminoDHT'],
@@ -803,7 +1102,7 @@ const daemonDefaults = {
                             <li>Optional native DHT on WiFi</li>
                             <li>Aggressive connection pruning</li>
                         </ul>
-                        <div class="code-block" style="margin-top: 1rem;">
+                        <div class="code-block code-block-mixed" style="margin-top: 1rem;">
                             <pre style="text-align: left;">// Mobile-optimized configuration
 const mobileDefaults = {
     preferDelegated: ['AminoDHT', 'IPNI'],
@@ -817,8 +1116,8 @@ const mobileDefaults = {
                 <h4>Platform-Specific Considerations</h4>
                 <p>Implementers should make these decisions at build time based on their target platform rather than reading them from the autoconfig. The autoconfig provides the <em>what</em> (available systems and endpoints), while your implementation decides the <em>how</em> (native vs delegated routing).</p>
 
-                <div class="code-block">
-                    <div class="code-header">Implementation Decision Tree</div>
+                <div class="code-block code-block-mixed">
+                    <div class="code-header code-header-mixed">Implementation Decision Tree</div>
                     <pre>// Instead of reading profiles from autoconfig, hard-code platform decisions:
 function getRoutingStrategy() {
     if (typeof window !== 'undefined' && !window.require) {
