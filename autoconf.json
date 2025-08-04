@@ -1,10 +1,10 @@
 {
-  "AutoConfigVersion": 2025072901,
-  "AutoConfigSchema": 4,
-  "CacheTTL": 86400,
+  "AutoConfVersion": 2025080401,
+  "AutoConfSchema": 1,
+  "AutoConfTTL": 86400,
   "SystemRegistry": {
     "AminoDHT": {
-      "URL": "https://github.com/ipfs/specs/pull/497",
+      "InfoURL": "https://github.com/ipfs/specs/pull/497",
       "Description": "Public DHT swarm that implements the IPFS Kademlia DHT specification under protocol identifier /ipfs/kad/1.0.0",
       "NativeConfig": {
         "Bootstrap": [
@@ -29,7 +29,7 @@
       }
     },
     "IPNI": {
-      "URL": "https://cid.contact",
+      "InfoURL": "https://cid.contact",
       "Description": "Network Indexer - content routing database for large storage providers",
       "DelegatedConfig": {
         "Read": [
@@ -39,7 +39,7 @@
       }
     },
     "Example": {
-      "URL": "https://example.com",
+      "InfoURL": "https://example.com",
       "Description": "Test system for implementers to verify graceful handling of unknown systems and APIs. Production clients MUST ignore this system and its /example/* endpoints without errors.",
       "DelegatedConfig": {
         "Read": [
