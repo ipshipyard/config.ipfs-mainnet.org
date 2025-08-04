@@ -1,6 +1,6 @@
 {
-  "AutoConfigVersion": 2025072901,
-  "AutoConfigSchema": 4,
+  "AutoConfVersion": 2025080401,
+  "AutoConfSchema": 5,
   "CacheTTL": 86400,
   "SystemRegistry": {
     "AminoDHT": {
