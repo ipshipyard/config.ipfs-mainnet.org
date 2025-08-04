@@ -473,11 +473,11 @@
                         <h4><code>AutoConfSchema</code></h4>
                         <p><strong>Purpose:</strong> Schema version number for breaking changes</p>
                         <p><strong>Usage:</strong> Allows clients to handle different config formats</p>
-                        <p><strong>Current:</strong> <code>4</code></p>
+                        <p><strong>Current:</strong> <code>5</code></p>
                     </div>
 
                     <div class="config-section">
-                        <h4><code>CacheTTL</code></h4>
+                        <h4><code>AutoConfTTL</code></h4>
                         <p><strong>Purpose:</strong> Cache duration in seconds</p>
                         <p><strong>Usage:</strong> A hint that clients should cache config for this duration (capped at 24 hours maximum), clients can override this hint but only as explicit user opt-in</p>
                         <p><strong>Default:</strong> <code>86400</code> (24 hours)</p>
@@ -486,7 +486,7 @@
                     <div class="config-section">
                         <h4><code>SystemRegistry</code></h4>
                         <p><strong>Purpose:</strong> Discovery registry of all routing systems</p>
-                        <p><strong>Contains:</strong> System metadata, native configuration, and delegated API capabilities</p>
+                        <p><strong>Contains:</strong> Link to documentation, native configuration, and delegated API capabilities</p>
                         <p><strong>Usage:</strong> Clients check here to understand system capabilities</p>
                     </div>
 
